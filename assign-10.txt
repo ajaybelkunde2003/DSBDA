@@ -1,0 +1,26 @@
+import numpy as np 
+import pandas as pd 
+import seaborn as sns 
+import warnings
+warnings.filterwarnings('ignore') 
+df = sns.load_dataset('iris')
+
+#List down the features and their types (e.g., numeric, nominal) available in the dataset.
+df.dtypes
+
+#Create a histogram for each feature in the dataset to illustrate the feature distributions.
+sns.histplot(df['sepal_length'])
+sns.histplot(df['sepal_width'])
+sns.histplot(df['petal_length'])
+sns.histplot(df['petal_width'])
+
+#Create a boxplot for each feature in the dataset.
+sns.boxplot(df['petal_length'])
+sns.boxplot(df['petal_width'])
+sns.boxplot(df['sepal_length'])
+sns.boxplot(df['sepal_width'])
+
+#Compare distributions and identify outliers
+sns.kdeplot(df)
+
+sns.boxplot(df)

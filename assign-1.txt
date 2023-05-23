@@ -1,0 +1,52 @@
+import pandas as pd 
+import numpy as np
+import seaborn as sns
+df=pd.read_csv("titanic.csv") # csv= comma separated values
+df.head() #gives first 5 entries
+df.tail() #gives last 5 enteries
+df.iloc[100] #it retrives the 100th record form the dataset
+df.iloc[100:104]#it retrives the row records from 100 to 103 with all columns
+df.iloc[:,1:3] #it retrives all row records but column 1,2 are retrived
+df['Age'] #accesing age column
+df[['Name','Age']] #to access both name and age columsn
+df.drop(['cabin'],axis =1) #it is used to drop the column cabin
+df.isnull().sum()# to check the number of null values
+df['Age'].fillna(df['Age'].mean(), inplace=True) #method used to fill null values with mean
+df.drop(['Cabin'], axis = 1, inplace = True)
+df['Embarked'].value_counts() #count the number of different values in the embarked column
+df['Embarked'].fillna('S', inplace = True)
+df.shape
+df.columns
+len(df['total_rooms']
+df.isna().sum()
+df.describe()
+df.Age.describe()
+df.Age.mean()
+df["Age"].quantile(0.25)
+df.info()
+df.dtypes
+col_list = df.columns[df.dtypes == 'object'] #it seperates the columns with data type object
+df.replace(to_replace=np.nan, value= -99) #it replace nan value with -99
+df.fillna(method='pad') #it replace missing values with previous one
+df=pd.DataFrame( 'A':{'this', 'that', 'those'},
+			'B':{1, 3, 4},
+			'C':{'cat', 'np.nan', 'dog'}
+df.drop(['Name', 'Ticket', 'PassengerId'], axis = 1, inplace = True) #to drop multiple columns
+
+df['Survived'] = df['Survived'].astype('int32') #it converts datatype into int 32 for less memory usage(it is label encoding)
+df['Sex'].replace(['male', 'female'], [0, 1], inplace = True) #it replace male with female
+
+#categrocial to numberical conversion
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder() #we have created object
+enc = pd.DataFrame(ohe.fit_transform(df[['Embarked']]).toarray())
+df = df.join(enc) #this join enc column with df
+df.head(10) #it prints first 10 records
+
+from sklearn.preprocessing import OrdinalEncoder
+oe = OrdinalEncoder()
+onc = pd.DataFram(oe.fit_transform(df[['Embarked']]).toarray())
+df = df.join(onc)
+
+
+

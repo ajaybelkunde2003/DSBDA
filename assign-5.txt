@@ -1,0 +1,47 @@
+import numpy as np 
+import pandas as pd 
+import seaborn as sns 
+import warnings
+
+warnings.filterwarnings('ignore') #it removes the warning messages from the output
+df = pd.read_csv('Social_Network_Ads.csv')
+
+df['Gender'].value_counts()
+df['Gender'].replace(['Female', 'Male'], [0, 1], inplace = True)
+sns.boxplot(df)
+
+# Droping unique or unrequired values
+df['User ID'].value_counts()
+df.drop(['User ID'], axis = 1, inplace = True)
+
+#Build Logistic Regression Model
+X = df.iloc[ : , : -1]
+y = df.iloc[ : , -1]
+X
+Y
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 0) 
+X_train.shape
+
+#Scaling of the dataset
+from sklearn.preprocessing import StandardScaler 
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test) 
+sns.kdeplot(X_train)
+sns.kdeplot(X_test)
+
+#Create Logistic Regression Object
+from sklearn.linear_model import LogisticRegression 
+LogReg = LogisticRegression()
+LogReg.fit(X_train, y_train)
+y_predict = LogReg.predict(X_test)
+
+
+#Evaluate the model
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+confusion_matrix(y_test, y_predict)
+accuracy_score(y_test, y_predict)
+precision_score(y_test, y_predict)
+recall_score(y_test, y_predict)

@@ -1,0 +1,14 @@
+import numpy as np 
+import pandas as pd 
+import seaborn as sns 
+df = sns.load_dataset('tips')
+
+df.groupby('day').describe()
+df.groupby('day')['total_bill'].describe()
+df.groupby('smoker').describe()
+
+df[df['day'] == 'Sun']['total_bill'].describe()
+
+df = sns.load_dataset('iris')
+df.describe()
+df.groupby('species').describe()

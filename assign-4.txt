@@ -1,0 +1,49 @@
+import numpy as np 
+import pandas as pd 
+import seaborn as sns
+import matplotlib.pyplot as plt 
+import warnings
+warnings.filterwarnings('ignore') 
+df = pd.read_csv("HousingData.csv")
+df.corr()
+
+sns.pairplot(df) 
+plt.show()
+
+df.boxplot()
+outlier_list = ['CRIM', 'ZN', 'CHAS', 'RM', 'DIS', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+for i in outlier_list: 
+Outlier_Treatment(i)
+
+def Outlier_Treatment(i, df):
+	Q1 = df[i].quantile(0.25) 
+	Q3 = df[i].quantile(0.75)
+	IQR = Q3 - Q1 # Formula
+	upper = Q3 + (IQR*1.5)
+	lower = Q1 - (IQR*1.5)
+	np.clip(df[i], lower, upper, inplace=True)
+
+#now dividing test and train 
+X = df.iloc[: , : -1]
+Y = df.iloc[: , -1]
+
+#or
+x = df.drop(['price'],axis=1)
+y = df['price']
+
+#spliting into training and testing
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.20, random_state = 42) 
+X_train.shape
+
+from sklearn.linear_model import LinearRegression 
+lr = LinearRegression()
+lr.fit(X_train, Y_train)
+
+Y_predict = lr.predict(X_test) 
+Y_predict
+
+#evaluate the model
+from sklearn.metrics import mean_squared_error, mean_absolute_error 
+mean_squared_error(Y_test, Y_predict)
+mean_absolute_error(Y_test, Y_predict)

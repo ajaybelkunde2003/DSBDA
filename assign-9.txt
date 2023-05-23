@@ -1,0 +1,11 @@
+import numpy as np 
+import pandas as pd 
+import seaborn as sns 
+df = sns.load_dataset('titanic') 
+df.isnull().sum()
+df['age'].fillna(df['age'].mean(), inplace = True)
+df.fillna(method = 'bfill', inplace = True)
+#here fill all null values
+
+#plot the boxplot
+sns.boxplot(x = 'sex', y = 'age', hue = 'survived', data = df)

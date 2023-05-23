@@ -1,0 +1,46 @@
+import numpy as np 
+import pandas as pd 
+import seaborn as sns
+import matplotlib.pyplot as plt 
+import warnings
+warnings.filterwarnings('ignore') 
+df = sns.load_dataset('iris')
+df.head(10)
+
+#Converting species column into numrical value
+df['species'].value_counts()
+df['species'].replace(['setosa', 'versicolor', 'virginica'], [0, 1, 2], inplace= True)
+df.info()
+
+sns.boxplot(data = df) 
+plt.show()
+
+#outlier treatment should be done
+
+sns.kdeplot(data = df)
+sns.pairplot(data = df)
+
+#Building Naïve Bayes Classification Model
+X = df.iloc[ : , : -1]
+y = df.iloc[ : , -1]
+
+#Spliting X and y into traning and testing set
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 0) 
+X_train.shape
+
+from sklearn.naive_bayes import GaussianNB
+classify = GaussianNB()
+
+#Training the model
+classify.fit(X_train, y_train)
+
+y_predict = classify.predict(X_test) 
+y_predict
+
+#Evaluate the model
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score 
+confusion_matrix(y_test, y_predict)
+accuracy_score(y_test, y_predict)
+precision_score(y_test, y_predict)
+recall_score(y_test, y_predict)

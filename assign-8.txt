@@ -1,0 +1,21 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+df = sns.load_dataset('titanic')
+df['age'].fillna(df['age'].mean(), inplace = True) 
+df.isnull().sum()
+df['embarked'].fillna('S', inplace = True)
+df['deck'].fillna(method = 'ffill', inplace = True)
+
+
+sns.pairplot(data = df) 
+plt.show()
+
+plt.figure(figsize = (10, 7)) 
+sns.histplot(df['fare'], bins = 10)
+
+sns.scatterplot(x = 'age', y = 'fare', data = df) 
+plt.show()

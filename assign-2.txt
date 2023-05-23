@@ -1,0 +1,29 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv("StudentsPerformance.csv")
+df.head()
+df.shape #it is a attribute not a function
+df.info() #it gives statistical info about df
+
+df['math score'].fillna(df['math score'].mean(), inplace=True)
+df['reading score'].fillna(df['reading score'].median(), inplace=True)
+df['writing score'].fillna(df['writing score'].std(), inplace=True)
+
+df['gender'].value_counts()
+df['race/ethnicity'].fillna(method='bfill', inplace=True)
+
+df.boxplot()
+Q1 = df['math score'].quantile(0.25) 
+Q3 = df['math score'].quantile(0.75)
+IQR = Q3 - Q1 # Formula
+upper = Q3 + (IQR*1.5)
+lower = Q1 - (IQR*1.5)
+np.clip(df['math score'], lower, upper, inplace=True)
+
+#data transformation
+from sklearn.preprocessing import MinMaxScaler
+mms=MinMaxScalar()
+df[['math_score', 'reading_score']]=mms.fit_transform(df[['math_score', 'reading_score']]) #this is for multiple columns transform
+df['math score']=mms.fit_transform(df['math score']) #this is for single column tranform
